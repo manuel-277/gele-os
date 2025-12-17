@@ -5,14 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>GELE-OS</title>
   <link rel="manifest" href="#manifest-placeholder">
-  <meta name="theme-color" content="#121212">
+  <meta name="theme-color" content="#000">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📱</text></svg>">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <style>
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-      user-select: none; -webkit-tap-highlight-color: transparent;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
     body {
       font-family: 'Google Sans', system-ui, sans-serif;
       background: #000;
@@ -25,29 +22,12 @@
     .phone {
       width: 100%;
       height: 100%;
-      max-width: 100%;
-      max-height: 100%;
-      margin: 0 auto;
       background: #000;
       position: relative;
       overflow: hidden;
-      border-radius: 0;
-      border: none;
-      box-shadow: none;
-    }
-    .status-bar {
-      height: 24px;
-      padding: 0 12px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      color: white;
-      font-size: 12px;
-      gap: 4px;
-      background: transparent;
     }
     .home-screen {
-      height: calc(100% - 90px); /* dock tem 80px + margem */
+      height: calc(100% - 70px); /* dock */
       padding: 12px;
       overflow-y: auto;
     }
@@ -111,7 +91,6 @@
       display: none;
       flex-direction: column;
       z-index: 10;
-      border-radius: 0;
       overflow: hidden;
     }
     .toolbar {
@@ -131,24 +110,9 @@
       font-size: 22px;
       margin-left: auto;
     }
-    .content {
-      flex: 1;
-      padding: 12px;
-      overflow-y: auto;
-    }
-    .card {
-      background: #1e1e1e;
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 14px;
-    }
-    iframe, video, audio, img {
-      width: 100%;
-      border-radius: 12px;
-      background: #000;
-      margin: 6px 0;
-      border: none;
-    }
+    .content { flex: 1; padding: 12px; overflow-y: auto; }
+    .card { background: #1e1e1e; border-radius: 14px; padding: 14px; margin-bottom: 14px; }
+    iframe, video, audio, img { width: 100%; border-radius: 12px; background: #000; margin: 6px 0; border: none; }
     .btn {
       padding: 8px 12px;
       border-radius: 8px;
@@ -174,50 +138,14 @@
       z-index: 100;
       border-top: 1px solid #333;
     }
-    .mini-player button {
-      background: none;
-      color: white;
-      font-size: 16px;
-    }
-    .mini-player span {
-      font-size: 13px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 60%;
-    }
-    .legal-notice {
-      font-size: 11px;
-      color: #94a3b8;
-      margin-top: 6px;
-      font-style: italic;
-    }
-    .profile-header {
-      text-align: center;
-      padding: 12px 0;
-    }
-    .profile-pic {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      background: #3399ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 34px;
-      margin: 0 auto 8px;
-    }
+    .mini-player button { background: none; color: white; font-size: 16px; }
+    .mini-player span { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; }
+    .legal-notice { font-size: 11px; color: #94a3b8; margin-top: 6px; font-style: italic; }
   </style>
 </head>
 <body>
 
 <div class="phone">
-  <div class="status-bar">
-    <span>📶</span>
-    <span>🔋 92%</span>
-    <span id="time">09:41</span>
-  </div>
-
   <div class="home-screen">
     <div class="apps-grid" id="appsGrid"></div>
   </div>
@@ -265,8 +193,8 @@ const manifest = {
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000",
-  "theme_color": "#121212",
-  "icons": [{ "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📱</text></svg>", "sizes": "192x192", "type": "image/svg+xml" }]
+  "theme_color": "#000",
+  "icons": [{ "src": "image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📱</text></svg>", "sizes": "192x192", "type": "image/svg+xml" }]
 };
 const manifestURL = URL.createObjectURL(new Blob([JSON.stringify(manifest)], {type: 'application/json'}));
 document.querySelector('link[rel="manifest"]').href = manifestURL;
@@ -283,21 +211,10 @@ const allApps = [
   { id: 'maps', name: 'Mapas', icon: 'bi-geo-alt', color: '#4285f4' },
   { id: 'music', name: 'Música', icon: 'bi-music-note-beamed', color: '#3b82f6' },
   { id: 'videos', name: 'Vídeos', icon: 'bi-film', color: '#ff0000' },
-  { id: 'podcasts', name: 'Podcasts', icon: 'bi-mic', color: '#f97316' },
-  { id: 'bible', name: 'Bíblia', icon: 'bi-book', color: '#f59e0b' },
-  { id: 'weather', name: 'Clima', icon: 'bi-cloud-sun', color: '#fbbf24' },
-  { id: 'health', name: 'Saúde', icon: 'bi-heart-pulse', color: '#ec4899' },
-  { id: 'saldo', name: 'Saldo (Kz)', icon: 'bi-currency-dollar', color: '#10b981' },
-  { id: 'calculator', name: 'Calculadora', icon: 'bi-calculator', color: '#f59e0b' },
-  { id: 'clock', name: 'Relógio', icon: 'bi-clock', color: '#8b5cf6' },
   { id: 'notes', name: 'Notas', icon: 'bi-journal-text', color: '#10b981' },
-  { id: 'recorder', name: 'Gravador', icon: 'bi-mic-fill', color: '#f97316' },
-  { id: 'settings', name: 'Configurações', icon: 'bi-gear', color: '#374151' },
+  { id: 'calculator', name: 'Calculadora', icon: 'bi-calculator', color: '#f59e0b' },
   { id: 'minhas-ideias', name: 'Minhas Ideias', icon: 'bi-lightbulb', color: '#f97316' },
-  { id: 'aboutme', name: 'Sobre Mim', icon: 'bi-person', color: '#ec4899' },
-  { id: 'camera', name: 'Câmera', icon: 'bi-camera', color: '#ef4444' },
-  { id: 'gallery', name: 'Galeria', icon: 'bi-images', color: '#64748b' },
-  { id: 'games', name: 'Jogos', icon: 'bi-controller', color: '#ef4444' }
+  { id: 'aboutme', name: 'Sobre Mim', icon: 'bi-person', color: '#ec4899' }
 ];
 
 function renderApps() {
@@ -313,27 +230,7 @@ function renderApps() {
 }
 renderApps();
 
-// === Hora ===
-function updateTime() {
-  const now = new Date();
-  document.getElementById('time').textContent = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-}
-setInterval(updateTime, 1000);
-updateTime();
-
-// === Gestos ===
-let touchStartX = 0;
-document.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
-document.addEventListener('touchend', e => {
-  const touchEndX = e.changedTouches[0].screenX;
-  if (touchEndX - touchStartX > 30) closeApp();
-});
-
-// === Reprodutores e Apps (mantidos iguais, só com ajustes visuais menores) ===
-// (O restante do script permanece exatamente como antes — reprodução, WhatsApp, etc.)
-// Por brevidade, mantive só a estrutura. Se quiseres o script completo com tudo, posso enviar.
-
-// === EXEMPLO: Música ===
+// === Reprodutor de Música ===
 const musicLibrary = [
   { title: "SoundHelix Song 1", artist: "Creative Commons", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
   { title: "LoFi Beat", artist: "Free Music Archive", url: "https://file-examples.com/storage/fe0c7e7a0a0f0b0a0b0a0b0/2017/11/file_example_MP3_700KB.mp3" }
@@ -342,9 +239,9 @@ let currentTrackIndex = -1;
 let audioElement = null;
 
 function openMusicPlayer() {
-  let html = `<div class="card"><h5 style="font-size:16px;">🎵 Músicas Reais</h5><p class="legal-notice">⚠️ Creative Commons – uso pessoal.</p></div>`;
+  let html = `<div class="card"><h5 style="font-size:16px;">🎵 Músicas Reais</h5><p class="legal-notice">⚠️ Creative Commons – uso pessoal permitido.</p></div>`;
   musicLibrary.forEach((track, i) => {
-    html += `<div class="music-track" style="background:#1e1e1e;padding:10px;border-radius:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+    html += `<div style="background:#1e1e1e;padding:10px;border-radius:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
       <div><strong style="font-size:14px;">${track.title}</strong><br><small>${track.artist}</small></div>
       <a href="${track.url}" download="${track.title}.mp3" class="btn" style="background:#10b981;width:auto;padding:4px 8px;font-size:11px;">⬇</a>
     </div>`;
@@ -352,7 +249,84 @@ function openMusicPlayer() {
   document.getElementById('appContent').innerHTML = html;
 }
 
-// === Apps externos ===
+function openVideoPlayer() {
+  document.getElementById('appContent').innerHTML = `
+    <div class="card">
+      <h5>🎥 Vídeos Reais</h5>
+      <button class="btn" style="background:#ff0000;" onclick="playVideo('https://file-examples.com/storage/fe6a4a4b7b7c7d7e7f7g7h7/2017/04/file_example_MP4_480_1_5MG.mp4')">Assistir Vídeo Exemplo</button>
+      <div id="videoContainer" style="margin-top:15px;"></div>
+    </div>
+  `;
+}
+function playVideo(url) {
+  document.getElementById('videoContainer').innerHTML = `<video src="${url}" controls style="width:100%; background:#000; border-radius:12px;"></video>`;
+}
+
+function openNotes() {
+  const saved = localStorage.getItem('gele-note') || '';
+  document.getElementById('appContent').innerHTML = `
+    <textarea id="noteEditor" class="form-control" rows="8" style="background:#1e1e1e;color:white;border:1px solid #333;width:100%;padding:10px;">${saved}</textarea>
+    <button class="btn" onclick="saveNote()">💾 Salvar Nota</button>
+  `;
+}
+function saveNote() {
+  localStorage.setItem('gele-note', document.getElementById('noteEditor').value);
+  alert("Nota salva localmente!");
+}
+
+function openCalculator() {
+  document.getElementById('appContent').innerHTML = `
+    <div id="calcDisplay" style="background:#1e1e1e;padding:15px;text-align:right;font-size:24px;height:60px;border-radius:12px;">0</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;">
+      ${['C','←','/','*','7','8','9','-','4','5','6','+','1','2','3','0','.','='].map(btn => 
+        `<button class="btn" style="background:${btn==='='?'#3399ff':'#374151'};font-size:16px;padding:10px;" onclick="calc('${btn}')">${btn}</button>`
+      ).join('')}
+    </div>
+  `;
+}
+function calc(key) {
+  const d = document.getElementById('calcDisplay');
+  let v = d.innerText;
+  if (key === 'C') d.innerText = '0';
+  else if (key === '←') d.innerText = v.length > 1 ? v.slice(0,-1) : '0';
+  else if (key === '=') {
+    try { d.innerText = eval(v); } catch { d.innerText = 'Erro'; }
+  } else {
+    d.innerText = v === '0' || v === 'Erro' ? (key === '.' ? '0.' : key) : v + key;
+  }
+}
+
+function openMinhasIdeias() {
+  document.getElementById('appContent').innerHTML = `
+    <div class="card">
+      <h5>📖 Minhas Ideias – Por Manuel Luciano</h5>
+      <p>Este é o meu espaço para reflexões, dicas e sonhos.</p>
+      <ul style="padding-left:20px;margin:15px 0;">
+        <li>• A tecnologia deve servir o povo angolano.</li>
+        <li>• Criar sistemas livres e acessíveis.</li>
+        <li>• Valorizar a cultura, línguas e identidade nacional.</li>
+        <li>• Nunca parar de aprender.</li>
+      </ul>
+    </div>
+  `;
+}
+
+function openAboutMe() {
+  document.getElementById('appContent').innerHTML = `
+    <div style="text-align:center;padding:12px 0;">
+      <div style="width:70px;height:70px;background:#3399ff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 10px;">M</div>
+      <h4>Manuel Luciano</h4>
+      <p class="text-muted">Desenvolvedor • Angola</p>
+    </div>
+    <div class="card">
+      <p>🚀 Criador do GELE-OS</p>
+      <p>💡 Apaixonado por tecnologia, cultura e educação.</p>
+      <p>🌍 Sonho: um Angola digital, soberano e criativo.</p>
+    </div>
+  `;
+}
+
+// === Apps Externos (abrem em nova janela) ===
 const externalApps = {
   whatsapp: 'https://web.whatsapp.com',
   facebook: 'https://m.facebook.com',
@@ -365,23 +339,30 @@ const externalApps = {
 };
 
 function openApp(id) {
-  document.getElementById('appTitle').textContent = allApps.find(a => a.id === id)?.name || id;
   if (externalApps[id]) {
-    window.open(externalApps[id], '_self');
+    window.open(externalApps[id], '_blank'); // aberto em nova janela
     return;
   }
+
+  document.getElementById('appTitle').textContent = allApps.find(a => a.id === id)?.name || id;
   document.getElementById('appWindow').style.display = 'flex';
+
   if (id === 'music') openMusicPlayer();
-  else if (id === 'videos') document.getElementById('appContent').innerHTML = `<div class="card"><h5>🎥 Vídeos</h5><p>Funcionalidade em desenvolvimento.</p></div>`;
-  else if (id === 'minhas-ideias') document.getElementById('appContent').innerHTML = `<div class="card"><h5>📖 Minhas Ideias – Por Manuel Luciano</h5><p>Este é o meu espaço para reflexões e sonhos.</p></div>`;
-  else if (id === 'aboutme') document.getElementById('appContent').innerHTML = `<div class="profile-header"><div class="profile-pic">M</div><h4>Manuel Luciano</h4><p class="text-muted">Desenvolvedor • Angola</p></div><div class="card"><p>🚀 Criador do GELE-OS</p></div>`;
-  else document.getElementById('appContent').innerHTML = `<div class="card">App "${id}" aberto.</div>`;
+  else if (id === 'videos') openVideoPlayer();
+  else if (id === 'notes') openNotes();
+  else if (id === 'calculator') openCalculator();
+  else if (id === 'minhas-ideias') openMinhasIdeias();
+  else if (id === 'aboutme') openAboutMe();
+  else {
+    document.getElementById('appContent').innerHTML = `<div class="card">App "${id}" aberto.</div>`;
+  }
 }
 
 function closeApp() {
   document.getElementById('appWindow').style.display = 'none';
 }
 
+// === Mini Player de Música ===
 function playTrack(index) {
   currentTrackIndex = index;
   const track = musicLibrary[index];
